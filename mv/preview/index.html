@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIRROR PV 画风预览</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;800&family=Noto+Serif+SC:wght@500;900&family=Noto+Sans+SC:wght@400;500;700&family=Klee+One:wght@400;600&family=Long+Cang&family=Dela+Gothic+One&family=DotGothic16&family=Reggae+One&family=Zen+Kurenaido&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* palette taken from the album's deep-blue night: ink, glass, sodium light */
+  --bg: #090c13;
+  --panel: #10151f;
+  --line: #222b3b;
+  --text: #e4e8f0;
+  --muted: #8d97aa;
+  --accent: #e0a75e;
+  --font-display: "Shippori Mincho B1", "Noto Serif SC", "Songti SC", serif;
+  --font-body: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  /* layout: a song-timeline header, then one wide stage + notes column per direction */
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { font-family: var(--font-body); font-size: 15px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); }
+.wrap { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- header ---------- */
+header { padding: 40px 0 24px; border-bottom: 1px solid var(--line); }
+.kicker { font-size: 12px; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; }
+h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 5vw, 54px); line-height: 1.1; margin: 8px 0 10px; letter-spacing: .02em; text-wrap: balance; }
+h1 small { font-weight: 500; font-size: .42em; color: var(--muted); margin-left: .6em; letter-spacing: .1em; }
+.lede { max-width: 68ch; color: var(--muted); margin: 0 0 18px; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.facts b { color: var(--text); font-weight: 500; }
+
+/* song timeline */
+.timeline { margin: 26px 0 6px; }
+.tl-bar { position: relative; height: 34px; background: #0d121b; border: 1px solid var(--line); border-radius: 3px; }
+.tl-seg { position: absolute; top: 0; bottom: 0; border-right: 1px solid #0a0e15; }
+.tl-mark { position: absolute; top: -6px; bottom: -6px; width: 2px; background: var(--accent); }
+.tl-mark span { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; color: var(--accent); font-variant-numeric: tabular-nums; }
+.tl-mark.left span { transform: translateX(calc(-100% - 2px)); }
+.tl-mark.right span { transform: translateX(3px); }
+@media (max-width: 600px) { .tl-mark.minor span { display: none; } }
+.tl-demo { position: absolute; height: 13px; border: 1px solid var(--muted); border-top: none; font-size: 10px; color: var(--text); text-align: center; line-height: 11px; }
+.tl-scale { position: relative; height: 70px; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.tl-scale span { position: absolute; top: 52px; transform: translateX(-50%); }
+.tl-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+.tl-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+/* audio loader */
+.audio { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 12px 14px; border: 1px dashed var(--line); border-radius: 6px; font-size: 13px; color: var(--muted); }
+.audio label.btn { cursor: pointer; }
+.audio input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.audio #audioState { color: var(--text); }
+
+nav.jump { position: sticky; top: 0; z-index: 5; background: rgba(9,12,19,.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+nav.jump .wrap { display: flex; gap: 6px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; }
+nav.jump a { flex: none; text-decoration: none; color: var(--muted); font-size: 13px; padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; }
+nav.jump a:hover, nav.jump a:focus-visible { color: var(--text); border-color: var(--muted); outline: none; }
+
+/* ---------- style sections ---------- */
+section.style { padding: 46px 0 40px; border-bottom: 1px solid var(--line); scroll-margin-top: 56px; }
+.s-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin-bottom: 18px; }
+.s-num { font-family: var(--font-display); font-size: 40px; line-height: 1; color: var(--muted); }
+h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(24px, 3.2vw, 34px); margin: 0; letter-spacing: .03em; text-wrap: balance; }
+h2 .jp { font-weight: 500; color: var(--muted); font-size: .6em; margin-left: .5em; }
+.tag { font-size: 12px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.tag.rec { border-color: var(--accent); color: var(--accent); }
+
+.s-grid { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 28px; align-items: start; }
+@media (max-width: 960px) { .s-grid { grid-template-columns: 1fr; } }
+
+.stage { position: relative; background: #000; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; aspect-ratio: 16 / 9; }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.tc { margin-left: auto; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stage .big-play { position: absolute; inset: 0; margin: auto; width: 74px; height: 74px; border-radius: 50%; border: 1px solid rgba(255,255,255,.6); background: rgba(0,0,0,.35); color: #fff; font-size: 26px; cursor: pointer; display: grid; place-items: center; backdrop-filter: blur(3px); }
+.stage .big-play:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.stage.playing .big-play { display: none; }
+
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+.btn { font: inherit; font-size: 13px; color: var(--text); background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 5px 12px; cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn.primary { border-color: var(--accent); color: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font: inherit; font-size: 12px; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.chip:hover, .chip:focus-visible { color: var(--text); border-color: var(--muted); outline: none; }
+.beats { display: inline-flex; gap: 4px; }
+.beats i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.beats i.on { background: var(--accent); }
+.seg-cap { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+.notes p { margin: 0 0 12px; max-width: 62ch; }
+.notes h3 { font-size: 12px; letter-spacing: .14em; color: var(--muted); font-weight: 500; margin: 18px 0 8px; }
+.notes ul { margin: 0; padding-left: 1.1em; }
+.notes li { margin: 0 0 6px; }
+.concept { font-family: var(--font-display); font-size: 17px; line-height: 1.75; }
+.palette { display: flex; gap: 6px; flex-wrap: wrap; }
+.palette div { flex: 1 1 60px; min-width: 60px; }
+.palette i { display: block; height: 30px; border-radius: 3px; border: 1px solid rgba(255,255,255,.08); }
+.palette span { display: block; font-size: 11px; color: var(--muted); margin-top: 4px; }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 6px; }
+.thumbs button { padding: 0; border: 1px solid var(--line); background: #000; border-radius: 3px; cursor: zoom-in; aspect-ratio: 16/9; overflow: hidden; }
+.thumbs button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.risk { color: var(--muted); font-size: 13px; }
+
+/* lightbox */
+.lightbox { position: fixed; inset: 0; z-index: 20; background: rgba(0,0,0,.92); display: none; place-items: center; padding: 20px; cursor: zoom-out; }
+.lightbox.open { display: grid; }
+.lightbox img { max-width: 100%; max-height: 100%; border-radius: 3px; }
+
+footer { padding: 46px 0 80px; }
+footer h2 { margin-bottom: 14px; }
+.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.verdict div { border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px; background: var(--panel); }
+.verdict div.rec { border-color: var(--accent); }
+.verdict h3 { margin: 0 0 6px; font-size: 16px; }
+.verdict p { margin: 0; color: var(--muted); font-size: 14px; }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+@media (max-width: 480px) { .wrap { padding: 0 16px; } .s-num { font-size: 30px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="kicker">PV 画风预览 · 讨论稿</div>
+    <h1>ヒトリエ「MIRROR」<small>作词作曲 wowaka · 《DEEPER》2016</small></h1>
+    <p class="lede">五个方向各做了一段可以播放的动态演示，用的都是歌曲里真实的段落和逐字时间轴。演示是浏览器里实时渲染的草稿，用来看画风、节奏和情绪，不代表最终成片的精度。</p>
+    <div class="facts">
+      <span>总长 <b>5:14</b>（音乐 5:10 结束）</span>
+      <span>速度 <b>120 BPM</b> 恒定</span>
+      <span>1 小节 = <b>2 秒</b>，乐队 0:10 进入，共 <b>150</b> 小节</span>
+      <span>歌词时间轴误差 <b>≤ 0.3 秒</b></span>
+    </div>
+
+    <div class="timeline" aria-label="歌曲结构">
+      <div class="tl-bar" id="tlBar"></div>
+      <div class="tl-scale" id="tlScale"></div>
+      <div class="tl-legend">
+        <span><i style="background:#2a3550"></i>前奏 / 间奏</span>
+        <span><i style="background:#3d5a99"></i>主歌</span>
+        <span><i style="background:#8a4b6e"></i>副歌</span>
+        <span><i style="background:#6b6a3c"></i>『』段 / 片假名</span>
+        <span><i style="background:#c8d2e6"></i>静音</span>
+        <span>方框 ①–⑤ = 各方案演示所用片段</span>
+      </div>
+    </div>
+
+    <div class="audio">
+      <label class="btn primary" for="audioIn">载入音乐（可选）</label>
+      <input type="file" id="audioIn" accept="audio/*,.wav">
+      <span id="audioState">未载入：演示按 120 BPM 自走，播放条右侧的四个点是拍子。载入 <b>Song_part2.wav</b>（后半段）后，所有演示都会和音乐同步播放。文件只在你的浏览器里读取，不会上传。</span>
+    </div>
+  </div>
+</header>
+
+<nav class="jump" aria-label="方案导航">
+  <div class="wrap">
+    <a href="#s5">⑤ 透写台（首选）</a>
+    <a href="#s1">① 合わせ鏡</a>
+    <a href="#s2">② 言葉の鏡像</a>
+    <a href="#s3">③ 胶片短片</a>
+    <a href="#s4">④ 複写</a>
+    <a href="#verdict">结论</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ⑤ -->
+  <section class="style" id="s5">
+    <div class="s-head">
+      <span class="s-num">⑤</span>
+      <h2>透写台<span class="jp">トレース台の上の二人</span></h2>
+      <span class="tag rec">首选</span><span class="tag">铅笔原画 · codex 作画</span>
+    </div>
+    <div class="s-grid">
+      <div>
+        <div class="stage" data-demo="d5"><canvas></canvas><canvas class="ov"></canvas><button class="big-play" aria-label="播放演示">▶</button></div>
+        <div class="controls">
+          <button class="btn primary act-play">播放</button><button class="btn act-restart">从头</button>
+          <div class="chips">
+            <button class="chip" data-seek="224.0">3:44 さよなら</button>
+            <button class="chip" data-seek="226.3">3:46 熄灯</button>
+            <button class="chip" data-seek="229.6">3:50 亮灯</button>
+            <button class="chip" data-seek="236.0">3:56 揭开上层纸</button>
+          </div>
+          <span class="tc"></span><span class="beats"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="seg-cap">演示片段 3:44–4:06：「弱虫の泣き声だ さよなら」→ 3.7 秒静音 → 最终副歌</div>
+      </div>
+      <div class="notes">
+        <p class="concept">动画师在透写台上作画，下面那张画会透过纸显出来。每一张新画都照着上一张描，互相映照，却从不完全重合。</p>
+        <h3>画面</h3>
+        <ul>
+          <li>作画用纸、蓝红铅笔、定位孔，透写台从纸背透出的暖光</li>
+          <li>铅笔稿翻页动画，24fps 下"一拍三"，细节差异读作手绘线条抖动</li>
+          <li>歌词写在右侧摄影表的台词栏里，逐格对齐；中文是红笔批注</li>
+          <li>3:46 透写台熄灭，3:50 亮灯、纸张飞散，画第一次有了颜色</li>
+        </ul>
+        <h3>色板</h3>
+        <div class="palette">
+          <div><i style="background:#efe6d2"></i><span>作画用纸</span></div>
+          <div><i style="background:#4f6fb5"></i><span>蓝铅笔</span></div>
+          <div><i style="background:#3a3a3a"></i><span>石墨</span></div>
+          <div><i style="background:#c8322c"></i><span>红笔修正</span></div>
+          <div><i style="background:#ffd79a"></i><span>透写台光</span></div>
+        </div>
+        <h3>素材（codex 生成，点开看大图）</h3>
+        <div class="thumbs">
+          <button data-full="img/genga_a12.jpg" aria-label="原画 A12"><img src="img/genga_a12.jpg" alt="原画 A12：女孩与镜中倒影掌心相贴"></button>
+          <button data-full="img/genga_a13.jpg" aria-label="原画 A13"><img src="img/genga_a13.jpg" alt="原画 A13：倒影收回手、低下头"></button>
+          <button data-full="img/genga_a14.jpg" aria-label="原画 A14"><img src="img/genga_a14.jpg" alt="原画 A14：镜子里空了"></button>
+          <button data-full="img/genga_c3.jpg" aria-label="原画 C3"><img src="img/genga_c3.jpg" alt="原画 C3：倒影哭泣特写"></button>
+          <button data-full="img/genga_color.jpg" aria-label="上色稿"><img src="img/genga_color.jpg" alt="同一镜头的水彩上色稿"></button>
+          <button data-full="img/lighttable.jpg" aria-label="透写台实拍"><img src="img/lighttable.jpg" alt="夜里的透写台俯拍"></button>
+        </div>
+        <p class="risk" style="margin-top:14px">风险：AI 画的二次元脸偏"标准美少女"，正式制作时会把角色设计往更粗糙、更有个性的方向推。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ① -->
+  <section class="style" id="s1">
+    <div class="s-head">
+      <span class="s-num">①</span>
+      <h2>合わせ鏡<span class="jp">無限回廊</span></h2>
+      <span class="tag rec">次选（与 ② 融合）</span><span class="tag">程序生成 · 零 AI</span>
+    </div>
+    <div class="s-grid">
+      <div>
+        <div class="stage" data-demo="d1"><canvas class="gl"></canvas><canvas class="ov"></canvas><button class="big-play" aria-label="播放演示">▶</button></div>
+        <div class="controls">
+          <button class="btn primary act-play">播放</button><button class="btn act-restart">从头</button>
+          <div class="chips">
+            <button class="chip" data-seek="222.0">3:42 トマラナイ</button>
+            <button class="chip" data-seek="226.3">3:46 裂纹</button>
+            <button class="chip" data-seek="229.4">3:50 碎裂</button>
+            <button class="chip" data-seek="235.5">3:55 镜框变空</button>
+          </div>
+          <span class="tc"></span><span class="beats"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="seg-cap">演示片段 3:42–4:06：トマラナイ → 3.7 秒静音 → 最终副歌</div>
+      </div>
+      <div class="notes">
+        <p class="concept">两面相对的镜子映出一条无限的走廊。「僕ら」就是这两面镜子，彼此只能看见对方映出的自己。</p>
+        <h3>画面</h3>
+        <ul>
+          <li>镜框一层套一层，副歌里每一拍穿过一道镜框</li>
+          <li>每层镜框里都站着一个剪影，越深越小，像真的合わせ鏡</li>
+          <li>静音里一道裂纹爬满全屏，3:50 整面镜子碎成星砂</li>
+          <li>「君はいないな」时所有镜框同时变空</li>
+        </ul>
+        <h3>色板</h3>
+        <div class="palette">
+          <div><i style="background:#04070f"></i><span>深夜</span></div>
+          <div><i style="background:#16306e"></i><span>DEEPER 蓝</span></div>
+          <div><i style="background:#8fb4ff"></i><span>玻璃边光</span></div>
+          <div><i style="background:#f4f7ff"></i><span>星砂</span></div>
+        </div>
+        <h3>做法</h3>
+        <p>全部由着色器实时生成，画面参数由鼓、贝斯、人声分轨驱动。不用 AI 图。</p>
+        <p class="risk">短板：抽象，没有具体的人物和情节，情绪要靠节奏和光来带。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ② -->
+  <section class="style" id="s2">
+    <div class="s-head">
+      <span class="s-num">②</span>
+      <h2>言葉の鏡像<span class="jp">日中双语互为镜像</span></h2>
+      <span class="tag">文字动态排版 · 零 AI</span>
+    </div>
+    <div class="s-grid">
+      <div>
+        <div class="stage" data-demo="d2"><canvas></canvas><button class="big-play" aria-label="播放演示">▶</button></div>
+        <div class="controls">
+          <button class="btn primary act-play">播放</button><button class="btn act-restart">从头</button>
+          <div class="chips">
+            <button class="chip" data-seek="210.0">3:30 ウツラナイ</button>
+            <button class="chip" data-seek="213.9">3:34 キコエナイ</button>
+            <button class="chip" data-seek="218.1">3:38 ワカラナイ</button>
+            <button class="chip" data-seek="222.0">3:42 トマラナイ</button>
+            <button class="chip" data-seek="229.6">3:50 反转</button>
+          </div>
+          <span class="tc"></span><span class="beats"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="seg-cap">演示片段 3:30–3:52：片假名四连 → 静音 → 最终副歌开头</div>
+      </div>
+      <div class="notes">
+        <p class="concept">画面中央是一条镜轴。左边是日文原词，右边是中文译词的倒影，相似却永远对不齐，就像「不揃いの形を互いに映す」。</p>
+        <h3>画面</h3>
+        <ul>
+          <li>每个字跟着人声的音节落下，镜像那一侧慢半拍</li>
+          <li>映不出：镜像侧空白；听不见：字褪成线框；不懂：字形乱码；停不下：越滚越快</li>
+          <li>静音时整页留白，3:50 黑白反转，「泣いてるのに」叠成文字隧道</li>
+        </ul>
+        <h3>色板</h3>
+        <div class="palette">
+          <div><i style="background:#efece4"></i><span>纸白</span></div>
+          <div><i style="background:#111111"></i><span>墨黑</span></div>
+          <div><i style="background:#1f3c8f"></i><span>DEEPER 蓝</span></div>
+          <div><i style="background:#c8102e"></i><span>泪红</span></div>
+        </div>
+        <h3>做法</h3>
+        <p>纯程序排版，逐字卡点。B 站「文字 PV」的路数，用镜像概念把它做成作品。</p>
+        <p class="risk">短板：只有文字，没有图像，完全靠排版撑。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ -->
+  <section class="style" id="s3">
+    <div class="s-head">
+      <span class="s-num">③</span>
+      <h2>鏡の向こうの君<span class="jp">胶片感短片</span></h2>
+      <span class="tag">写实摄影 · codex 生成</span>
+    </div>
+    <div class="s-grid">
+      <div>
+        <div class="stage" data-demo="d3"><canvas></canvas><button class="big-play" aria-label="播放演示">▶</button></div>
+        <div class="controls">
+          <button class="btn primary act-play">播放</button><button class="btn act-restart">从头</button>
+          <div class="chips">
+            <button class="chip" data-seek="237.9">3:58 此処にいないな</button>
+            <button class="chip" data-seek="246.0">4:06 君がいないから</button>
+            <button class="chip" data-seek="254.0">4:14 君はいないから</button>
+          </div>
+          <span class="tc"></span><span class="beats"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="seg-cap">演示片段 3:58–4:20：最终副歌后半，按小节剪辑</div>
+      </div>
+      <div class="notes">
+        <p class="concept">一个总在赶路的女孩。车窗、积水、电梯镜里的倒影总慢半拍，有时倒影在哭，她自己却没有。最后倒影走出镜框，只剩一面空镜子。</p>
+        <h3>画面</h3>
+        <ul>
+          <li>35mm 夜景胶片：颗粒、光晕溢出、片门抖动、漏光，24fps</li>
+          <li>2.39:1 宽银幕，歌词像电影字幕</li>
+          <li>每小节一刀，副歌里在鼓点上插入闪白</li>
+        </ul>
+        <h3>色板</h3>
+        <div class="palette">
+          <div><i style="background:#0b1424"></i><span>夜蓝</span></div>
+          <div><i style="background:#e58a2e"></i><span>钠灯橙</span></div>
+          <div><i style="background:#b7c9b0"></i><span>日光灯绿</span></div>
+          <div><i style="background:#f2e6d0"></i><span>字幕</span></div>
+        </div>
+        <h3>素材（codex 生成，点开看大图）</h3>
+        <div class="thumbs">
+          <button data-full="img/film_window.jpg" aria-label="车窗"><img src="img/film_window.jpg" alt="雨夜车窗上的倒影"></button>
+          <button data-full="img/film_elevator.jpg" aria-label="电梯镜"><img src="img/film_elevator.jpg" alt="电梯镜里哭泣的倒影"></button>
+          <button data-full="img/film_puddle.jpg" aria-label="积水"><img src="img/film_puddle.jpg" alt="积水里倒映的女孩"></button>
+          <button data-full="img/film_empty.jpg" aria-label="空镜子"><img src="img/film_empty.jpg" alt="手按在镜子上，镜子里没有她"></button>
+        </div>
+        <p class="risk" style="margin-top:14px">风险：写实人物最容易露出 AI 感，同一个人要在几十个镜头里保持一致，只能靠背影、局部、虚焦来规避。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ -->
+  <section class="style" id="s4">
+    <div class="s-head">
+      <span class="s-num">④</span>
+      <h2>複写<span class="jp">复印拼贴 · 朋克 zine</span></h2>
+      <span class="tag">印刷质感 · codex 生成</span>
+    </div>
+    <div class="s-grid">
+      <div>
+        <div class="stage" data-demo="d4"><canvas></canvas><button class="big-play" aria-label="播放演示">▶</button></div>
+        <div class="controls">
+          <button class="btn primary act-play">播放</button><button class="btn act-restart">从头</button>
+          <div class="chips">
+            <button class="chip" data-seek="161.4">2:41 蜘蛛の巣</button>
+            <button class="chip" data-seek="169.5">2:49 教科書</button>
+            <button class="chip" data-seek="173.6">2:53 毒</button>
+            <button class="chip" data-seek="177.4">2:57 ああ</button>
+          </div>
+          <span class="tc"></span><span class="beats"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="seg-cap">演示片段 2:41–3:00：第一段『』（话语、蜘蛛网、教科书、毒）→「ああ」</div>
+      </div>
+      <div class="notes">
+        <p class="concept">镜子就是一台复印机。复印件再拿去复印，一次比一次失真：「忘れてしまったよ それまでの僕の姿など」。</p>
+        <h3>画面</h3>
+        <ul>
+          <li>油墨印刷的荧光粉和蓝，网点、套色错位、撕纸、胶带</li>
+          <li>12fps 定格动画式抖动，歌词是剪下来贴上去的纸条</li>
+          <li>对折出来的罗夏墨迹：两张对望的脸，也是一只蜘蛛</li>
+        </ul>
+        <h3>色板</h3>
+        <div class="palette">
+          <div><i style="background:#ece6da"></i><span>米白纸</span></div>
+          <div><i style="background:#ff48b0"></i><span>荧光粉</span></div>
+          <div><i style="background:#3255a4"></i><span>蓝油墨</span></div>
+          <div><i style="background:#141414"></i><span>复印黑</span></div>
+        </div>
+        <h3>素材（codex 生成，点开看大图）</h3>
+        <div class="thumbs">
+          <button data-full="img/riso_hands.jpg" aria-label="掌心"><img src="img/riso_hands.jpg" alt="riso 印刷：隔着镜子掌心相贴"></button>
+          <button data-full="img/riso_rorschach.jpg" aria-label="罗夏墨迹"><img src="img/riso_rorschach.jpg" alt="罗夏墨迹：两张脸和一只蜘蛛"></button>
+          <button data-full="img/riso_xerox.jpg" aria-label="复印的脸"><img src="img/riso_xerox.jpg" alt="反复复印后失真的脸"></button>
+        </div>
+        <p class="risk" style="margin-top:14px">短板：粗粝、很酷，但不是华丽惊艳那一路。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap" id="verdict">
+  <h2>结论</h2>
+  <div class="verdict">
+    <div class="rec"><h3>首选 ⑤ 透写台</h3><p>概念只属于这首歌，有人物和情绪起伏；铅笔稿本身就有手作感，AI 生成的细微差异刚好变成手绘的抖动。</p></div>
+    <div class="rec"><h3>次选 ① + ② 融合</h3><p>玻璃回廊做空间，双语文字当主角。零 AI 感、卡点最精确，代价是人物和情绪弱一些。</p></div>
+    <div><h3>③ 胶片短片</h3><p>写实质感已经够好，但人物一致性和 AI 感的风险最大。</p></div>
+    <div><h3>④ 複写</h3><p>质感真、节奏感强，风格更粗粝，适合想要朋克味的话。</p></div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-label="大图"><img alt=""></div>
+
+<script src="lyrics.js"></script>
+<script src="engine.js"></script>
+<script src="d1_mirror.js"></script>
+<script src="d2_type.js"></script>
+<script src="d3_film.js"></script>
+<script src="d4_riso.js"></script>
+<script src="d5_lighttable.js"></script>
+<script>Engine.boot();</script>
+</body>
+</html>
