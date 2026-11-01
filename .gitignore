@@ -5,3 +5,4 @@
 mv/renders/
 mv/cache/
 __pycache__/
+mv/v3/render/art/
