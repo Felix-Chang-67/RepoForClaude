@@ -1,0 +1,16 @@
+Use your built-in image generation tool. Make FOUR separate images (one image_gen call each), then copy each generated file from $CODEX_HOME/generated_images/... into the current directory with the exact filename given. Do not modify the images. At the end list filenames with pixel sizes.
+Input image 1 (attached) is the CHARACTER REFERENCE SHEET. Keep her design exactly: messy fluffy medium-long PINK hair with an ahoge (antenna strand), a small red hair clip on her right side, thin round RED glasses, pink eyes, white collared shirt, red necktie with thin gold diagonal stripes, oversized cream knit cardigan with black buttons and two pockets (sleeves past the wrists), black-gray plaid pleated skirt, asymmetric legs: her RIGHT leg bare with a black leather strap below the knee, white ankle sock and a cream buckled boot; her LEFT leg in a white thigh-high stocking with a black lace-up platform combat boot. Same face and proportions as the sheet. Do not add text.
+
+Images M1-M4 all use this style. Art style: high-contrast BLACK-AND-WHITE Japanese anime illustration (ink lineart, bold black shadow shapes, white highlights, screentone dot patterns, a few ink splatters) where the ONLY color in the entire image is her PINK hair and the small red accents (glasses, tie, hair clip). Everything else strictly grayscale. Story-driven net-music PV look. 16:9, no text, no watermark.
+
+M1 -> m1_no_reflection.png
+A dim, empty room at night. She stands facing a tall standing mirror, seen from behind at a three-quarter angle, her hand hovering just in front of the glass. The mirror shows the room behind her but NOT her: she has no reflection at all. Quiet, eerie, lots of black negative space.
+
+M2 -> m2_listen.png
+Close-up, side view: she presses her ear and her palm flat against the cold mirror glass, eyes closed behind her red glasses, straining to listen. On the other side of the glass a faint ghostly copy of her presses back. Condensation on the glass.
+
+M3 -> m3_scribbled.png
+Extreme close-up of her face from the nose up (eyes, red glasses, bangs). The right half of the image is her reflection in a cracked mirror, and that reflected half of the face is violently scribbled over with harsh black pen scratches, as if crossed out.
+
+M4 -> m4_run_corridor.png
+Dynamic low angle: she runs desperately down a long school corridor at night lined with tall windows; in every window pane a reflection of her runs alongside, a dozen copies, motion lines, her pink hair streaming behind her, cardigan flapping.

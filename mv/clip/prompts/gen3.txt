@@ -1,0 +1,12 @@
+Use your built-in image generation tool. Make THREE separate images (one image_gen call each), then copy each generated file from $CODEX_HOME/generated_images/... into the current directory with the exact filename given. Do not modify the images. At the end list filenames with pixel sizes.
+Input image 1 (attached) is the CHARACTER REFERENCE SHEET. Keep her design exactly: messy fluffy medium-long PINK hair with an ahoge (antenna strand), a small red hair clip on her right side, thin round RED glasses, pink eyes, white collared shirt, red necktie with thin gold diagonal stripes, oversized cream knit cardigan with black buttons and two pockets (sleeves past the wrists), black-gray plaid pleated skirt, asymmetric legs: her RIGHT leg bare with a black leather strap below the knee, white ankle sock and a cream buckled boot; her LEFT leg in a white thigh-high stocking with a black lace-up platform combat boot. Same face and proportions as the sheet. Do not add text.
+Images C2, C4 and C5 use this style. Art style: Japanese vocaloid / net-music MV key illustration, clean confident lineart with varied line weight, FLAT anime cel shading with only two tone levels, subtle halftone dots in shadows, SOLID FLAT background color with no gradient, graphic composition with empty space for typography. 16:9, no text, no watermark.
+
+C2 -> c2_split_pair.png
+Wide 16:9 composition split exactly in half by a thin vertical mirror line; the whole background is solid cobalt blue (#1e3fd0). On the left half: the girl, bust-up, in profile facing right, expressionless, palm raised and touching the center line. On the right half: her mirror reflection, bust-up, in profile facing left, an exact mirror image of her (hair clip and every asymmetric detail flipped), palm meeting her palm exactly at the center line, but the reflection is crying, tears on her cheek. Upper third left empty for typography.
+
+C4 -> c4_shards_floor.png
+High angle looking down: she sits alone on the floor hugging her knees inside an empty, broken full-length mirror frame lying flat; mirror shards scattered all around her, each shard reflecting a sliver of blue sky. Solid black background around the frame. Melancholic, quiet.
+
+C5 -> c5_empty_frame.png
+The same ornate standing mirror frame from the leap scene, standing alone in the center, completely empty: no glass, no girl, just the frame, a few shards floating in the air around it. Solid cobalt blue (#1e3fd0) background. Lots of empty space.
