@@ -1,0 +1,140 @@
+{
+  "song": {
+    "title": "MIRROR",
+    "artist": "ヒトリエ",
+    "composer_lyricist": "wowaka",
+    "album": "DEEPER (2016) track 10"
+  },
+  "audio": {
+    "duration_s": 313.96,
+    "music_end_s": 310.1,
+    "sample_rate": 44100,
+    "note": "Song_part1.wav + Song_part2.wav concatenated seamlessly (split at 156.98s)"
+  },
+  "tempo": {
+    "bpm": 120.0,
+    "beat_s": 0.5,
+    "bar_s": 2.0,
+    "time_signature": "4/4",
+    "bar1_start_s": 10.0,
+    "bars_total": 150,
+    "note": "constant click tempo; bar n starts at 10.0 + 2*(n-1) s"
+  },
+  "sections": [
+    {
+      "name": "intro_quiet",
+      "start": 0.0,
+      "end": 10.0,
+      "desc": "near silence, sparse noises"
+    },
+    {
+      "name": "intro_band",
+      "start": 10.0,
+      "end": 26.0,
+      "bars": "1-8"
+    },
+    {
+      "name": "verse1_A",
+      "start": 26.0,
+      "end": 42.0,
+      "bars": "9-16"
+    },
+    {
+      "name": "verse1_B",
+      "start": 42.0,
+      "end": 58.0,
+      "bars": "17-24"
+    },
+    {
+      "name": "chorus1",
+      "start": 58.0,
+      "end": 76.8
+    },
+    {
+      "name": "interlude1",
+      "start": 76.8,
+      "end": 90.0
+    },
+    {
+      "name": "verse2_A",
+      "start": 90.0,
+      "end": 106.0,
+      "bars": "41-48"
+    },
+    {
+      "name": "verse2_B",
+      "start": 106.0,
+      "end": 126.0,
+      "bars": "49-58"
+    },
+    {
+      "name": "bridge_C",
+      "start": 126.0,
+      "end": 138.6,
+      "bars": "59-64"
+    },
+    {
+      "name": "break_stop",
+      "start": 138.6,
+      "end": 146.0,
+      "desc": "sudden drop, stop-start"
+    },
+    {
+      "name": "solo_build",
+      "start": 146.0,
+      "end": 161.6
+    },
+    {
+      "name": "quote1",
+      "start": 161.6,
+      "end": 177.5,
+      "desc": "spider web / textbook / poison"
+    },
+    {
+      "name": "aa_scream",
+      "start": 177.6,
+      "end": 179.8
+    },
+    {
+      "name": "interlude2",
+      "start": 179.8,
+      "end": 193.7
+    },
+    {
+      "name": "quote2",
+      "start": 193.7,
+      "end": 210.0,
+      "desc": "その枠を飛び越える at 205.8"
+    },
+    {
+      "name": "katakana",
+      "start": 210.0,
+      "end": 226.3,
+      "desc": "ウツラナイ/キコエナイ/ワカラナイ/トマラナイ"
+    },
+    {
+      "name": "silence",
+      "start": 226.3,
+      "end": 230.0,
+      "desc": "3.7s near-total silence"
+    },
+    {
+      "name": "final_chorus",
+      "start": 230.0,
+      "end": 266.3,
+      "desc": "highest energy"
+    },
+    {
+      "name": "outro",
+      "start": 266.3,
+      "end": 310.1,
+      "desc": "44s instrumental"
+    },
+    {
+      "name": "tail_silence",
+      "start": 310.1,
+      "end": 313.96
+    }
+  ],
+  "lyrics_timing_source": "NetEase Cloud Music LRC id 41672437 (verified vs Demucs vocal stem, <=0.3s)"
+}

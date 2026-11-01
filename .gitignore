@@ -1,0 +1,7 @@
+# large media / intermediates stay out of git
+*.wav
+*.flac
+*.mp3
+mv/renders/
+mv/cache/
+__pycache__/
