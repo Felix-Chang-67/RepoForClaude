@@ -1,0 +1,12 @@
+Use your built-in image generation tool. Make THREE separate images (one image_gen call each), then copy each generated file from $CODEX_HOME/generated_images/... into the current directory with the exact filename given. Do not modify the images. At the end list filenames with pixel sizes.
+STYLE: a real hand-drawn 2D anime production keyframe (genga) scanned from animation paper: the sheet fills the whole 16:9 frame, peg holes (one round, two slots) along the top edge, rough light-blue pencil construction lines underneath with a cleaner graphite line pass on top, eraser smudges, a few redrawn lines, small handwritten timing marks in the right margin, a circled cel number in the top-right corner. Input image 3 shows the exact drawing and paper style to match. Mostly uncoloured graphite, EXCEPT: BOKU's hair is lightly filled with PINK coloured pencil hatching, KIMI's hair with MINT coloured pencil hatching, and a little red pencil on BOKU's glasses and tie; uneven, like real coloured pencil. Not digital, not clean, no screentone.
+Input image 1 = BOKU design (messy medium-long hair with an ahoge, hair clip on her right side, thin round glasses, white shirt and striped necktie, oversized knit cardigan, plaid skirt, asymmetric boots). Input image 2 = KIMI design, her mirror-self (long perfectly straight sleek hair with blunt bangs, clip on her left side, NO glasses, a thin crack running down from under her left eye like a tear track, dark shirt, striped necktie, oversized dark cardigan, plaid skirt). Keep both designs.
+
+G1 -> g1_no_reflection.png  (cel number "A1")
+BOKU stands in an empty room facing a tall standing mirror, seen from behind at a three-quarter angle, her hand hovering in front of the glass. The mirror shows the room behind her but NOT her: no reflection. 16:9.
+
+G2 -> g2_listen.png  (cel number "B3")
+Close-up side view: BOKU presses her ear and palm flat against mirror glass, eyes closed behind her glasses; on the other side of the glass KIMI presses her palm and forehead back against the same spot, eyes closed, lips slightly open. 16:9.
+
+G3 -> g3_scribbled.png  (cel number "C2")
+Extreme close-up from the nose up, split by a jagged crack down the middle of a broken mirror: left half BOKU's face (glasses, one wide eye), right half KIMI's face in the mirror, and KIMI's half is violently scribbled over with heavy graphite pencil scratches, as an animator crossing it out. 16:9.
