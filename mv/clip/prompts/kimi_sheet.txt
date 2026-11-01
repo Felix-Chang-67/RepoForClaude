@@ -1,0 +1,15 @@
+Use your built-in image generation tool. Make TWO separate images (one image_gen call each), then copy each generated file from $CODEX_HOME/generated_images/... into the current directory with the exact filename given. Do not modify the images. At the end list filenames with pixel sizes.
+
+Input image 1 (attached) is the character reference sheet of the ORIGINAL girl. Match its art style exactly: same clean anime illustration style, same line quality and soft cel shading, same proportions, same white background, same three-view layout with small grey serif labels under each view.
+
+Image 1 -> mirror_sheet.png
+Design her MIRROR-SELF, a new character who is the "negative" of the original, as a three-view sheet: FRONT, RIGHT (side view facing right), BACK. Labels exactly: FRONT, RIGHT, BACK.
+- Same face shape, height, body and silhouette family as the original, but every asymmetric detail flipped left-right.
+- Hair: same length and volume but SLEEK, smooth and tidy instead of messy; pale mint / ice-cyan colour with a soft pink inner layer that shows only at the tips and underside; one ahoge curling the opposite way; a small cyan hair clip on her LEFT side.
+- No glasses. Clear mint-cyan eyes, calm, a faint gentle smile. A thin hairline crack runs down from under her LEFT eye like a tear track of cracked glass.
+- Outfit is the original outfit with inverted colours: oversized knit cardigan in deep navy-black with white buttons and two pockets, black collared shirt, cyan necktie with thin dark-navy diagonal stripes, pale grey and white plaid pleated skirt.
+- Legs mirrored and inverted: her LEFT leg bare with a white leather strap below the knee, a black ankle sock and a black buckled engineer boot; her RIGHT leg in a black thigh-high stocking with a white lace-up platform combat boot.
+No other text.
+
+Image 2 -> pair_lineup.png
+Both girls side by side as a line-up on a white background, full body, front view, same art style: the ORIGINAL girl from image 1 on the left, the mirror-self you just designed on the right, standing as exact mirror images of each other (the original's left hand and the mirror-self's right hand almost touching in the middle). Small grey serif labels under them: BOKU and KIMI. No other text.

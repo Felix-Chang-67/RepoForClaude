@@ -1,0 +1,12 @@
+Use your built-in image generation tool. Make THREE separate images (one image_gen call each), then copy each generated file from $CODEX_HOME/generated_images/... into the current directory with the exact filename given. Do not modify the images. At the end list filenames with pixel sizes.
+Input image 1 (attached) is the reference sheet of BOKU: messy fluffy PINK hair with an ahoge, small red hair clip on her right side, thin round RED glasses, pink eyes, white shirt, red necktie with thin gold stripes, oversized cream knit cardigan, dark plaid skirt, asymmetric boots. Input image 2 (attached) is the reference sheet of KIMI, her mirror-self: pale MINT/ice-cyan hair with pink tips underneath, ahoge, small cyan hair clip on her left side, NO glasses, mint-cyan eyes, a thin crack running down from under her left eye like a tear track of cracked glass, black shirt, cyan striped necktie, oversized navy-black cardigan with white buttons, pale plaid skirt, mirrored boots. Keep both designs exactly as in their sheets. No text.
+All three images: Art style: high-contrast BLACK-AND-WHITE Japanese anime illustration (ink lineart, bold black shadow shapes, white highlights, screentone dots, a few ink splatters). The ONLY colours in the whole image are BOKU's pink hair and red accents and KIMI's mint-cyan hair and cyan accents; everything else strictly grayscale. Story-driven net-music PV look. 16:9, no watermark.
+
+M2 -> m2_listen.png
+Close-up, side view: BOKU presses her ear and her palm flat against cold mirror glass, eyes closed behind her red glasses, straining to listen. On the other side of the glass, KIMI presses her palm and forehead back against the same spot, eyes closed, lips slightly open as if speaking words that cannot be heard. Condensation on the glass between them.
+
+M3 -> m3_scribbled.png
+Extreme close-up from the nose up, split by a jagged crack down the middle of a broken mirror: the left half is BOKU's face (pink hair, red glasses, one wide eye); the right half is KIMI's face in the mirror (mint hair, no glasses, the crack tear-track under her eye), and KIMI's half is violently scribbled over with harsh black pen scratches, as if crossed out.
+
+M4 -> m4_run_corridor.png
+Dynamic low angle: BOKU runs desperately down a long school corridor at night lined with tall windows, pink hair streaming, cardigan flapping. In every window pane it is KIMI who runs alongside her, a dozen mint-haired copies, motion lines, speed and panic.

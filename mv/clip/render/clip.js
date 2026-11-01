@@ -109,7 +109,7 @@
     cn9: '900 {s}px "Noto Serif SC", serif', cn7: '700 {s}px "Noto Serif SC", serif',
     sans: '300 {s}px "Noto Sans JP", sans-serif'
   };
-  const PINK = '#ff5fa2', COBALT = '#1e3fd0';
+  const PINK = '#ff5fa2', COBALT = '#1e3fd0', MINT = '#7ff0e0';
   const softShadow = ['rgba(0,0,0,.75)', 18, 0, 3];
 
   // ---------- post effects ----------
@@ -242,8 +242,8 @@
   }
   function shotKikoenai(t) {
     storyImage('m2', t, 213.98, 218.17, 1.06, 1.16, .55, .5, .5, .46);
-    vText(ctx, K2.jp.split('　')[0], W * .92, 140, 150, F.kata, '#fff', { times: K2.ct.slice(0, 5), t, strokeOnly: true, stroke: ['#fff', 5], pop: .16 });
-    vText(ctx, K2.jp.split('　')[1], W * .82, 200, 150, F.kata, '#fff', { times: K2.ct.slice(6), t, strokeOnly: true, stroke: ['rgba(255,255,255,.55)', 4], pop: .16 });
+    vText(ctx, K2.jp.split('　')[0], W * .955, 140, 140, F.kata, '#fff', { times: K2.ct.slice(0, 5), t, strokeOnly: true, stroke: ['#fff', 5], pop: .16 });
+    vText(ctx, K2.jp.split('　')[1], W * .875, 200, 140, F.kata, '#fff', { times: K2.ct.slice(6), t, strokeOnly: true, stroke: ['rgba(255,255,255,.55)', 4], pop: .16 });
     // a pink trace across the frame that goes flat: the sound no longer reaches
     const k = clamp((t - K2.ct[0]) / 1.4, 0, 1); ctx.save(); ctx.strokeStyle = PINK; ctx.lineWidth = 4; ctx.beginPath();
     for (let x = 0; x <= W; x += 6) { const amp = (1 - k) * 70 * Math.sin(x * .045 + t * 28) * Math.sin(x * .009 + 1); x ? ctx.lineTo(x, H * .5 + amp) : ctx.moveTo(x, H * .5 + amp); }
@@ -291,9 +291,9 @@
 
   // ---------- chorus shots (flat colour) ----------
   const chorusWord = (line, k) => { const i0 = k * 6; return { times: line.ct.slice(i0, i0 + 6), started: line.ct[i0] }; };
-  function giant(line, k, t, x, y, size, alpha = 1, color = '#fff') {
+  function giant(line, k, t, x, y, size, alpha = 1, color = '#fff', accent = PINK) {
     const w = chorusWord(line, k); if (t < w.started - .05) return;
-    hText(ctx, '泣いてるのに', x, y, size, F.kata, (ch) => ch === '泣' ? PINK : color, { times: w.times, t, stroke: [COBALT, size * .1], shadow: ['rgba(0,0,0,.35)', 0, 0, size * .06], alpha, pop: .14 });
+    hText(ctx, '泣いてるのに', x, y, size, F.kata, (ch) => ch === '泣' ? accent : color, { times: w.times, t, stroke: [COBALT, size * .1], shadow: ['rgba(0,0,0,.35)', 0, 0, size * .06], alpha, pop: .14 });
   }
   function camChorus(t, base = 1) { return base * (1 + .028 * kickP(t, 10)); }
   function shotLeap(t) {
@@ -307,24 +307,24 @@
     const z = camChorus(t, 1.02);
     cover(ctx, IM[empty ? 'c2e' : 'c2'], z, .5, .5);
     if (!empty) {
-      giant(CA, 1, t, W / 2, 130, 150, 1);
+      giant(CA, 1, t, W / 2, H * .8, 140, 1);
       // the mirror side flickers into negative on the backbeat
       if (snareP(t, 14) > .35 && Math.floor(beatF(t)) % 2 === 1) invertRect(W / 2, 0, W / 2, H);
     } else {
-      const i0 = CA.jp.indexOf('君'); vText(ctx, CA.jp.slice(i0), W * .75, 150, 108, F.min8, '#0b0b14', { times: CA.ct.slice(i0), t, pop: .25 });
+      const i0 = CA.jp.indexOf('君'); vText(ctx, CA.jp.slice(i0), W * .75, 150, 108, F.min8, '#f2fffd', { times: CA.ct.slice(i0), t, pop: .25, shadow: ['rgba(127,240,224,.55)', 28, 0, 0] });
     }
   }
   function shotCryClose(t) {
     const z = camChorus(t, mix(1.0, 1.06, (t - 233.95) / 2));
     cover(ctx, IM.c3, z, .5, .5);
     // stacked chorus words, the newest on top
-    giant(CA, 0, Math.max(t, 999), 70, 120, 150, .25);
-    giant(CA, 1, Math.max(t, 999), 70, 290, 150, .5);
-    giant(CA, 2, t, 70, 460, 150, 1);
+    giant(CA, 0, Math.max(t, 999), 70, 120, 150, .25, '#fff', MINT);
+    giant(CA, 1, Math.max(t, 999), 70, 290, 150, .5, '#fff', MINT);
+    giant(CA, 2, t, 70, 460, 150, 1, '#fff', MINT);
   }
   function shotCryNeg(t) {
     cover(ctx, IM.c3, camChorus(t, 1.08), .55, .45);
-    giant(CB, 0, t, 60, H * .79, 180);
+    giant(CB, 0, t, 60, H * .79, 180, 1, '#fff', MINT);
     const b = Math.floor(beatF(t)); if (b % 2 === 0 && fract(beatF(t)) < .22) invertRect(0, 0, W, H);
   }
   function shotFloor(t) {
@@ -334,7 +334,7 @@
   }
   function shotSplitSwap(t) {
     cover(ctx, IM.c2, camChorus(t, 1.02), .5, .5);
-    giant(CB, 2, t, W / 2, 130, 150);
+    giant(CB, 2, t, W / 2, H * .8, 140);
     const b = Math.floor(beatF(t)); invertRect(b % 2 ? W / 2 : 0, 0, W / 2, H);
   }
   function shotEmptyFrame(t) {
