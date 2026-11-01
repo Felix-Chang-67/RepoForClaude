@@ -17,8 +17,12 @@ def separate(rgb):
     g = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY).astype(np.float32) / 255
     bh = cv2.morphologyEx(g, cv2.MORPH_BLACKHAT, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (13, 13)))
     black = np.maximum(black, np.clip((bh - 0.10) / 0.12, 0, 1) * np.clip((0.75 - g) / 0.3, 0, 1))
-    pinkw = np.maximum(hue_w(h, 335, 55), hue_w(h, 10, 28))
-    pink = np.clip(pinkw * np.clip((s - 0.08) * 2.1, 0, 1) * (0.35 + 0.65 * v), 0, 1)
+    # pink ink only for the pink hair and the red accents; skin stays paper with light pink in its shadows
+    hair = hue_w(h, 345, 28) * np.clip((s - 0.22) / 0.18, 0, 1)
+    red = hue_w(h, 355, 20) * np.clip((s - 0.5) / 0.2, 0, 1)
+    skin = ((h < 40) | (h > 345)) & (s > 0.04) & (s < 0.27) & (v > 0.7)
+    shade = np.where(skin, np.clip((0.95 - v) * 2.2, 0, 0.22), 0)
+    pink = np.clip(np.maximum(np.maximum(hair * (0.45 + 0.55 * v), red), shade), 0, 1)
     mint = np.clip(hue_w(h, 178, 32) * np.clip(s * 3.2, 0, 1), 0, 1)
     bluew = hue_w(h, 228, 42)
     neutral_shadow = np.clip((0.9 - v) / 0.55, 0, 1) * np.clip(1 - s * 2.2, 0, 1) * (1 - black)
